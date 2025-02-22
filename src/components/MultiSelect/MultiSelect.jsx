@@ -66,18 +66,19 @@ const MultiSelect = ({maxItems}) => {
     }, [selectedItems]);
 
     return (
-        <div className="multiselect-container" ref={dropRef} activeindex="-1" onKeyDown={(e) => handleKeyNavigation(e)}>
+        <div className="multiselect-container" aria-label="multiselect-container" ref={dropRef} activeindex="-1" onKeyDown={(e) => handleKeyNavigation(e)}>
             {/* Search */}
-            <div className="search-container">
+            <div className="search-container" aria-label="search-container">
                 <Search 
                     ref={inputRef} 
                     onKeyNavigation={handleKeyNavigation}
                     onFocus={handleDropdownOpen}
                     maxItems={maxItems}
+                    aria-label="search"
                 />
             </div>
             {/* Dropdown */}
-            {isDropdownOpen && (<Dropdown activeIndex={activeIndex} isOpen={isDropdownOpen} disabled={disabled} />)}
+            {isDropdownOpen && (<Dropdown ariaLabel="dropdown" activeIndex={activeIndex} isOpen={isDropdownOpen} disabled={disabled} />)}
         </div>
     )
 }

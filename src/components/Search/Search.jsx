@@ -3,12 +3,12 @@ import { useMultiSelect } from '../../context/MultiSelectContext';
 import {DropdownButton} from '../Dropdown/Dropdown';
 import './Search.css';
 
-const InputItem = memo(({item}) => {
+const InputItem = memo(({item, ariaLabel}) => {
   const {handleRemoveItem} = useMultiSelect(); 
   return (
-    <div className="search-item">
-      <span className="search-item-label">{item.label}</span>
-      <span className="search-item-remove" onClick={() => handleRemoveItem(item)}>X</span>
+    <div className="search-item" aria-label={ariaLabel}>
+      <span className="search-item-label" aria-label="search-item-label">{item.label}</span>
+      <span className="search-item-remove" aria-label="search-item-remove" onClick={() => handleRemoveItem(item)}>X</span>
     </div>
   );
 }, (prevProps, nextProps) => {
@@ -18,19 +18,20 @@ const InputItem = memo(({item}) => {
 })
 
 const ClearButton = ({onClear}) => {
-  return <button className="clear-button" onClick={onClear}>Clear</button>
+  return <button className="clear-button" aria-label="clear-button" onClick={onClear}>Clear</button>
 }
 
-const Input = ({placeholder, ref, onFocus, onClear, selectedItems}) => {
+const Input = ({placeholder, ariaLabel, ref, onFocus, onClear, selectedItems}) => {
   const {searchValue, handleOnChange} = useMultiSelect();
   return ( 
-    <div className="input-container">
-      <div className="search-item-container">
+    <div className="input-container" aria-label="input-container">
+      <div className="search-item-container" aria-label="search-item-container">
         {selectedItems?.length > 0 && (
             selectedItems.map((country, idx) => (
               <InputItem
                 key={idx}
-                item={country} 
+                item={country}
+                ariaLabel="search-item-input-item"
               />
             ))
           )}
@@ -42,10 +43,10 @@ const Input = ({placeholder, ref, onFocus, onClear, selectedItems}) => {
         placeholder={placeholder}
         value={searchValue}
         type="text"
-        aria-label="search-item-input"
+        aria-label={ariaLabel}
         onChange={(e) => handleOnChange(e.target.value)}
       />
-      <div className="button-container">
+      <div className="button-container" aria-label="button-container-dropdown">
         <DropdownButton />
         {selectedItems?.length > 0 && (<ClearButton onClear={onClear}/>)}
       </div>
@@ -63,6 +64,7 @@ const Search = () => {
         selectedItems={selectedItems}
         onClear={handleOnClear}
         onFocus={onFocus}
+        ariaLabel="search-item-input"
       />
     </>
   )

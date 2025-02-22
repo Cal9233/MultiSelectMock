@@ -5,8 +5,8 @@ import { useMultiSelect } from '../../context/MultiSelectContext';
 export const DropdownButton = memo(() => {
   const {handleDropdownOpen} = useMultiSelect();
   return (
-    <button className="dropdown-btn" onClick={handleDropdownOpen}>
-      <div className="triangle" />
+    <button aria-label="dropdown-btn" className="dropdown-btn" onClick={handleDropdownOpen}>
+      <div aria-label="triangle" className="triangle" />
     </button>
   )
 });
@@ -20,6 +20,7 @@ export const DropdownItem = memo(({item, onSelect, selectedItems, isActive, disa
 
   return (
     <li 
+      aria-label="dropdown-item"
       className={`dropdown-item ${isSelected ? "selected" : ""} ${isActive ? "active" : ''}`}
       onClick={handleClick}
     >
@@ -36,7 +37,7 @@ export const DropdownItem = memo(({item, onSelect, selectedItems, isActive, disa
   );
 })
 
-const Dropdown = ({isOpen, activeIndex, disabled}) => {
+const Dropdown = ({isOpen, activeIndex, disabled, ariaLabel}) => {
   const {filteredList, handleOnSelect, selectedItems} = useMultiSelect();
 
   if(!isOpen) return null;
@@ -48,7 +49,7 @@ const Dropdown = ({isOpen, activeIndex, disabled}) => {
   return (
     <>
       {isOpen && (
-        <ul className="dropdown-list">
+        <ul className="dropdown-list" ariaLabel={ariaLabel}>
           {filteredList.length > 0 ? filteredList.map((country, idx) => (
             <DropdownItem 
               key={country.id}
@@ -59,7 +60,7 @@ const Dropdown = ({isOpen, activeIndex, disabled}) => {
               disabled={disabled}
               >{country.label}</DropdownItem>
           ))
-            : <li className="dropdown-item no-results">No results found</li>
+            : <li aria-label="dropdown-list no-results" className="dropdown-item no-results">No results found</li>
           }
         </ul>
       )}
